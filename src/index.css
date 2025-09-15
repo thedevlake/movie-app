@@ -1,0 +1,249 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #030014;
+
+  --color-light-100: #cecefb;
+  --color-light-200: #a8b5db;
+
+  --color-gray-100: #9ca4ab;
+
+  --color-dark-100: #0f0d23;
+
+  --font-dm-sans: DM Sans, sans-serif;
+
+  --breakpoint-xs: 480px;
+
+  --background-image-hero-pattern: url("/hero-bg.png");
+
+  /* Perfect design palette */
+  --bg-1: #030114;        /* original deep base */
+  --bg-2: #0b1220;        /* slightly lighter charcoal for gradient spread */
+  --accent-indigo: #5863A6; /* muted indigo (primary accent) */
+  --accent-violet: #6A4C93; /* muted violet (secondary accent) */
+  --accent-silver: #CFCFCF; /* warm silver (text/highlight) */
+  --card-bg: rgba(18, 18, 28, 0.75);
+  --soft-border: rgba(255,255,255,0.06);
+  --hover-shadow: rgba(88,99,166,0.07);
+}
+
+@layer base {
+  body {
+    font-family: "DM Sans", serif;
+    font-optical-sizing: auto;
+
+    /* spread-out gradient background with subtle radial depths */
+    background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 45%, var(--bg-1) 100%);
+    color: white;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* faint layered light to avoid flatness */
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(88,99,166,0.06), transparent 20%),
+      radial-gradient(circle at 85% 75%, rgba(106,76,147,0.05), transparent 25%);
+    z-index: 0;
+  }
+
+  h1 {
+    @apply mx-auto max-w-4xl text-center text-5xl font-bold leading-tight tracking-[-1%] sm:text-[64px] sm:leading-[76px];
+    /* smooth indigo -> violet -> silver gradient */
+    background: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-silver));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 10;
+  }
+
+  h2 {
+    @apply text-2xl font-bold sm:text-3xl;
+    color: var(--accent-silver);
+  }
+
+  main {
+    @apply min-h-screen relative;
+    background: linear-gradient(160deg, rgba(3,1,20,0.02) 0%, transparent 40%);
+    z-index: 5;
+  }
+
+  header {
+    @apply sm:mt-10 mt-5;
+  }
+
+  header img {
+    @apply w-full max-w-lg h-auto object-contain mx-auto;
+    filter: drop-shadow(0 8px 20px rgba(0,0,0,0.6));
+    transition: transform 350ms ease;
+  }
+
+  header img:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+@layer components {
+  .pattern {
+    @apply bg-hero-pattern w-full h-screen bg-center bg-cover absolute z-0 opacity-12;
+  }
+
+  .wrapper {
+    @apply px-5 py-12 xs:p-10 max-w-7xl mx-auto flex flex-col relative z-10;
+  }
+
+  /* Trending kept exactly original structure & look (unchanged styling intent) */
+  .trending {
+    @apply mt-20;
+
+    & ul {
+      @apply flex flex-row overflow-y-auto gap-5 -mt-10 w-full hide-scrollbar;
+    }
+
+    & ul li {
+      @apply min-w-[230px] flex flex-row items-center;
+    }
+
+    & ul li p {
+      @apply fancy-text mt-[22px] text-nowrap;
+    }
+
+    & ul li img {
+      @apply w-[127px] h-[163px] rounded-lg object-cover -ml-3.5;
+    }
+  }
+
+  /* Search: glassy, subtle border, minimal hover shadow */
+  .search {
+    @apply w-full px-4 py-3 rounded-lg mt-10 max-w-3xl mx-auto;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--soft-border);
+    backdrop-filter: blur(6px);
+    transition: box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .search:hover {
+    border-color: rgba(88,99,166,0.16);
+    box-shadow: 0 6px 18px var(--hover-shadow);
+  }
+
+  .search div {
+    @apply relative flex items-center;
+  }
+
+  .search img {
+    @apply absolute left-2 h-5 w-5;
+    opacity: .9;
+    filter: grayscale(.2) brightness(.9);
+  }
+
+  .search input {
+    @apply w-full bg-transparent py-2 sm:pr-10 pl-10 text-base text-gray-200 placeholder-light-200 outline-hidden;
+  }
+
+  /* All movies grid unchanged structure, card styling refined */
+  .all-movies {
+    @apply space-y-9;
+
+    & ul {
+      @apply grid grid-cols-1 gap-5 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+    }
+  }
+
+  .movie-card {
+    @apply p-5 rounded-2xl transition-all duration-300;
+    background: var(--card-bg);
+    border: 1px solid var(--soft-border);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.45), inset 0 -2px 6px rgba(255,255,255,0.01);
+  }
+
+  /* subtle lift and soft colored border-on-hover (no heavy glow) */
+  .movie-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 30px rgba(3,6,20,0.55), 0 2px 12px var(--hover-shadow);
+    border-color: rgba(106,76,147,0.12); /* soft violet hint on hover */
+    background: linear-gradient(145deg, var(--bg-2), var(--card-bg));
+    transition: all 0.35s ease;
+  }
+
+  .movie-card:hover > h3 {
+    background: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .movie-card img {
+    @apply rounded-lg h-auto w-full;
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: opacity .25s ease, transform .3s ease;
+  }
+
+  .movie-card img:hover {
+    transform: scale(1.01);
+    opacity: .96;
+  }
+
+  .movie-card h3 {
+    @apply text-white font-bold text-base line-clamp-1;
+    color: var(--accent-silver);
+  }
+
+  .movie-card .content {
+    @apply mt-2 flex flex-row items-center flex-wrap gap-2;
+  }
+
+  .movie-card .rating {
+    @apply flex flex-row items-center gap-1;
+  }
+
+  .movie-card .rating img {
+    @apply size-4 object-contain;
+    filter: grayscale(.4) brightness(.95);
+  }
+
+  .movie-card .rating p {
+    @apply font-bold text-base;
+    color: var(--accent-indigo);
+  }
+
+  .movie-card .content span {
+    @apply text-sm text-gray-100;
+  }
+
+  .movie-card .content .lang {
+    @apply capitalize text-gray-100 font-medium text-base;
+  }
+
+  .movie-card .content .year {
+    @apply text-gray-100 font-medium text-base;
+  }
+}
+
+/* keep original utility intent but tuned to palette */
+@utility text-gradient {
+  background: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-silver));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility fancy-text {
+  -webkit-text-stroke: 5px rgba(106,76,147,0.28); /* muted violet stroke */
+  font-size: 190px;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+/* keep hiding scrollbar utility */
+@utility hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
